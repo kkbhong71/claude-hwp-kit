@@ -35,12 +35,12 @@ Claude에게 **"○○ 계획서를 한글 문서로 만들어 줘"** 라고 말
 Claude 데스크톱 앱 → **Code** 탭에서 아래처럼 입력하세요.
 
 ```
-github.com/<계정이름>/claude-hwp-kit 키트를 내려받아서 install.ps1로 설치해 줘
+github.com/kkbhong71/claude-hwp-kit 키트를 내려받아서 install.ps1로 설치해 줘
 ```
 
 ### 방법 C. git 사용자
 ```bash
-git clone https://github.com/<계정이름>/claude-hwp-kit.git
+git clone https://github.com/kkbhong71/claude-hwp-kit.git
 cd claude-hwp-kit
 powershell -ExecutionPolicy Bypass -File install.ps1
 ```
