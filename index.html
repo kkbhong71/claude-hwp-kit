@@ -1,0 +1,504 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>클로드 한글(HWP) 문서 키트</title>
+<meta name="description" content="Claude에게 말하면 학교 업무 문서를 꾸며진 한글(.hwp) 파일과 PDF로 만들어 주는 초보자용 키트">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  :root {
+    --navy: #1f3864;
+    --navy-2: #2c4c80;
+    --accent: #e7eef8;
+    --stripe: #f6f9fd;
+    --ink: #1f2430;
+    --muted: #5b6475;
+    --line: #dfe5ee;
+    --bg: #ffffff;
+    --soft: #f4f7fb;
+    --ok: #1a7f4b;
+    --warn-bg: #fff8e6;
+    --warn-line: #f0d48a;
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: "Pretendard", "Malgun Gothic", "맑은 고딕", system-ui, sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.65;
+    word-break: keep-all;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--navy-2); }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+
+  /* 상단 바 */
+  header.top {
+    position: sticky; top: 0; z-index: 10;
+    background: rgba(255,255,255,.92); backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  header.top .wrap { display: flex; align-items: center; justify-content: space-between; height: 58px; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; color: var(--navy); text-decoration: none; }
+  .brand .logo {
+    width: 30px; height: 30px; border-radius: 8px; background: var(--navy); color: #fff;
+    display: grid; place-items: center; font-size: 13px; font-weight: 800; letter-spacing: -.5px;
+  }
+  nav.links { display: flex; gap: 22px; font-size: 15px; }
+  nav.links a { color: var(--muted); text-decoration: none; }
+  nav.links a:hover { color: var(--navy); }
+
+  /* 히어로 */
+  .hero { background: linear-gradient(180deg, var(--soft), #fff); padding: 64px 0 40px; }
+  .hero .wrap { display: grid; grid-template-columns: 1.05fr .95fr; gap: 48px; align-items: center; }
+  .pill {
+    display: inline-block; font-size: 13px; font-weight: 700; color: var(--navy);
+    background: var(--accent); border-radius: 999px; padding: 5px 12px; margin-bottom: 16px;
+  }
+  h1 { font-size: clamp(30px, 4.4vw, 46px); line-height: 1.25; margin: 0 0 16px; letter-spacing: -1px; }
+  h1 em { font-style: normal; color: var(--navy-2); }
+  .lead { font-size: 18px; color: var(--muted); margin: 0 0 28px; }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px; text-decoration: none;
+    font-weight: 700; font-size: 16px; padding: 14px 22px; border-radius: 12px;
+    border: 1.5px solid var(--navy); transition: transform .08s ease, box-shadow .15s ease;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn.primary { background: var(--navy); color: #fff; box-shadow: 0 6px 18px rgba(31,56,100,.25); }
+  .btn.primary:hover { background: var(--navy-2); }
+  .btn.ghost { background: #fff; color: var(--navy); }
+  .btn.ghost:hover { background: var(--accent); }
+  .btn svg { width: 18px; height: 18px; }
+  .note { font-size: 14px; color: var(--muted); margin-top: 14px; }
+
+  .chat {
+    background: #fff; border: 1px solid var(--line); border-radius: var(--radius);
+    box-shadow: 0 18px 40px rgba(31,56,100,.12); padding: 18px; position: relative;
+  }
+  .bubble { border-radius: 12px; padding: 12px 14px; font-size: 15px; margin-bottom: 12px; }
+  .bubble.me { background: var(--navy); color: #fff; margin-left: 40px; }
+  .bubble.ai { background: var(--soft); border: 1px solid var(--line); margin-right: 20px; }
+  .bubble.ai b { color: var(--navy); }
+  .shot {
+    display: block; position: relative; max-height: 340px; overflow: hidden;
+    border-radius: 8px; border: 1px solid var(--line);
+  }
+  .shot::after {
+    content: "예시 결과물 전체 보기 (PDF) →"; position: absolute; left: 0; right: 0; bottom: 0;
+    padding: 60px 0 14px; text-align: center; font-size: 14px; font-weight: 700; color: var(--navy);
+    background: linear-gradient(180deg, rgba(255,255,255,0), #fff 70%);
+  }
+  .preview { display: block; width: 100%; }
+  .files { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+  .file { font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 6px; background: var(--accent); color: var(--navy); }
+
+  /* 섹션 공통 */
+  section { padding: 64px 0; }
+  section.alt { background: var(--soft); }
+  .sec-head { display: flex; align-items: center; gap: 12px; margin-bottom: 28px; }
+  .sec-num {
+    min-width: 40px; height: 40px; border-radius: 10px; background: var(--navy); color: #fff;
+    display: grid; place-items: center; font-weight: 800;
+  }
+  h2 { font-size: clamp(22px, 3vw, 30px); margin: 0; letter-spacing: -.5px; }
+  .sub { color: var(--muted); margin: -16px 0 28px 52px; }
+
+  /* 기능 카드 */
+  .grid { display: grid; gap: 16px; }
+  .grid.c3 { grid-template-columns: repeat(3, 1fr); }
+  .grid.c4 { grid-template-columns: repeat(4, 1fr); }
+  .card {
+    background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 22px;
+  }
+  .card h3 { margin: 10px 0 6px; font-size: 17px; }
+  .card p { margin: 0; color: var(--muted); font-size: 15px; }
+  .icon {
+    width: 42px; height: 42px; border-radius: 10px; background: var(--accent); color: var(--navy);
+    display: grid; place-items: center;
+  }
+  .icon svg { width: 22px; height: 22px; }
+  .tag { display: inline-block; margin-top: 10px; font-size: 12px; font-weight: 700; color: var(--ok); }
+  .tag.need { color: #b4541a; }
+
+  /* MCP 안내 */
+  .callout {
+    margin-top: 20px; background: var(--warn-bg); border: 1px solid var(--warn-line);
+    border-radius: var(--radius); padding: 16px 20px; font-size: 15px;
+  }
+  .callout b { color: #7a5200; }
+
+  /* 설치 방법 탭 */
+  .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+  .tab {
+    font: inherit; font-weight: 700; font-size: 15px; cursor: pointer;
+    padding: 10px 16px; border-radius: 10px; border: 1.5px solid var(--line); background: #fff; color: var(--muted);
+  }
+  .tab[aria-selected="true"] { border-color: var(--navy); color: var(--navy); background: var(--accent); }
+  .tab .badge { font-size: 11px; background: var(--navy); color: #fff; border-radius: 999px; padding: 2px 7px; margin-left: 6px; vertical-align: 1px; }
+  .panel { display: none; }
+  .panel.on { display: block; }
+  ol.steps { list-style: none; margin: 0; padding: 0; counter-reset: s; display: grid; gap: 12px; }
+  ol.steps li {
+    counter-increment: s; position: relative; background: #fff; border: 1px solid var(--line);
+    border-radius: 12px; padding: 16px 18px 16px 62px;
+  }
+  ol.steps li::before {
+    content: counter(s); position: absolute; left: 18px; top: 15px;
+    width: 30px; height: 30px; border-radius: 50%; background: var(--navy); color: #fff;
+    display: grid; place-items: center; font-weight: 800; font-size: 14px;
+  }
+  ol.steps li b { color: var(--navy); }
+  ol.steps small { display: block; color: var(--muted); margin-top: 4px; font-size: 14px; }
+  kbd {
+    font-family: inherit; font-size: 14px; font-weight: 700; background: var(--accent); color: var(--navy);
+    border-radius: 6px; padding: 1px 7px; border: 1px solid #cdd9ec;
+  }
+
+  /* 복사 가능한 문장 */
+  .prompt {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    background: #fff; border: 1px solid var(--line); border-left: 4px solid var(--navy);
+    border-radius: 10px; padding: 12px 12px 12px 16px; margin-top: 10px;
+  }
+  .prompt span { font-size: 15px; }
+  .copy {
+    flex: none; font: inherit; font-size: 13px; font-weight: 700; cursor: pointer;
+    border: 1px solid var(--navy); color: var(--navy); background: #fff; border-radius: 8px; padding: 6px 12px;
+  }
+  .copy.done { background: var(--ok); border-color: var(--ok); color: #fff; }
+  .label { font-size: 13px; font-weight: 700; color: var(--muted); margin-top: 18px; }
+
+  /* 결과 표 */
+  table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 12px; overflow: hidden; font-size: 15px; }
+  th { background: var(--navy); color: #fff; text-align: left; padding: 11px 14px; font-weight: 700; }
+  td { padding: 11px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  tr:nth-child(even) td { background: var(--stripe); }
+  .tbl { border: 1px solid var(--line); border-radius: 12px; overflow-x: auto; }
+
+  /* FAQ */
+  details {
+    background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 0 18px; margin-bottom: 10px;
+  }
+  summary {
+    cursor: pointer; list-style: none; padding: 16px 0; font-weight: 700; display: flex; justify-content: space-between; gap: 12px;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; color: var(--navy); font-size: 20px; line-height: 1; }
+  details[open] summary::after { content: "−"; }
+  details p { margin: 0 0 16px; color: var(--muted); }
+
+  /* 하단 */
+  .final { text-align: center; }
+  .final h2 { margin-bottom: 12px; }
+  .final p { color: var(--muted); margin: 0 0 24px; }
+  .final .cta { justify-content: center; }
+  footer { border-top: 1px solid var(--line); padding: 28px 0 40px; font-size: 14px; color: var(--muted); }
+  footer ul { margin: 0 0 12px; padding-left: 18px; }
+
+  /* 반응형 */
+  @media (max-width: 880px) {
+    .hero .wrap { grid-template-columns: 1fr; gap: 32px; }
+    .grid.c4 { grid-template-columns: repeat(2, 1fr); }
+    .grid.c3 { grid-template-columns: 1fr; }
+    nav.links { display: none; }
+  }
+  @media (max-width: 520px) {
+    .wrap { padding: 0 16px; }
+    .hero { padding: 40px 0 28px; }
+    .lead { font-size: 16px; }
+    .btn { width: 100%; justify-content: center; }
+    .grid.c4 { grid-template-columns: 1fr; }
+    .sub { margin-left: 0; margin-top: -12px; }
+    section { padding: 48px 0; }
+    .bubble.me { margin-left: 16px; }
+    .prompt { flex-direction: column; align-items: stretch; }
+    .copy { align-self: flex-end; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#"><span class="logo">HWP</span>클로드 한글 문서 키트</a>
+    <nav class="links">
+      <a href="#ready">준비물</a>
+      <a href="#install">설치</a>
+      <a href="#use">사용법</a>
+      <a href="#faq">자주 묻는 질문</a>
+    </nav>
+  </div>
+</header>
+
+<!-- 히어로 -->
+<div class="hero">
+  <div class="wrap">
+    <div>
+      <span class="pill">선생님을 위한 무료 키트</span>
+      <h1>말 한마디로<br><em>꾸며진 한글 문서</em>까지</h1>
+      <p class="lead">Claude에게 "○○ 계획서를 한글 문서로 만들어 줘"라고 말하면, 내용 작성부터 깔끔하게 꾸며진 <b>.hwp 파일과 PDF</b> 저장까지 한 번에 끝납니다.</p>
+      <div class="cta">
+        <a class="btn primary" href="https://github.com/kkbhong71/claude-hwp-kit/archive/refs/heads/main.zip">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+          키트 내려받기 (ZIP)
+        </a>
+        <a class="btn ghost" href="%EA%B0%80%EC%9D%B4%EB%93%9C/%ED%81%B4%EB%A1%9C%EB%93%9C_%ED%95%9C%EA%B8%80%EB%AC%B8%EC%84%9C_%EC%B4%88%EB%B3%B4%EC%9E%90_%EA%B0%80%EC%9D%B4%EB%93%9C.pdf" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/></svg>
+          초보자 가이드 (PDF)
+        </a>
+      </div>
+      <p class="note">Windows + 한컴 한글 + Claude 유료 요금제(Code 탭)에서 사용할 수 있어요.</p>
+    </div>
+
+    <div class="chat" aria-label="사용 예시">
+      <div class="bubble me">중학교 영어 기초학력 운영 방안을 10쪽 이내로 구체적으로 작성해 줘</div>
+      <div class="bubble ai"><b>완성했습니다.</b> 13개 장, 표 11개로 7쪽입니다. 학교 현황 수치는 예시이니 실제 값으로 바꿔 주세요.
+        <div class="files"><span class="file">영어_기초학력_운영방안.hwp</span><span class="file">.pdf</span></div>
+      </div>
+      <a href="%EC%98%88%EC%8B%9C/%EC%98%81%EC%96%B4_%EA%B8%B0%EC%B4%88%ED%95%99%EB%A0%A5_%EC%9A%B4%EC%98%81%EB%B0%A9%EC%95%88.pdf" target="_blank" rel="noopener" class="shot" title="예시 결과물 전체 보기 (PDF)">
+        <img class="preview" src="%EC%98%88%EC%8B%9C/%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0.png" alt="실제로 만들어진 한글 문서 첫 쪽: 남색 제목 상자, 번호가 붙은 장 제목, 색이 들어간 표" loading="lazy">
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- 할 수 있는 일 -->
+<section>
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">1</span><h2>이런 일을 해 줍니다</h2></div>
+    <div class="grid c3">
+      <div class="card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></div>
+        <h3>내용까지 작성</h3>
+        <p>추진 배경, 목표, 추진 체계, 일정, 예산, 기대 효과까지 학교 문서 형식에 맞춰 개조식으로 씁니다.</p>
+      </div>
+      <div class="card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg></div>
+        <h3>보기 좋게 꾸미기</h3>
+        <p>남색 제목 상자, 번호 띠, 색 머리행 표, ○ 글머리표, 쪽 번호까지 자동으로 꾸며 줍니다.</p>
+      </div>
+      <div class="card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+        <h3>쪽수까지 확인</h3>
+        <p>"5쪽 이내" 같은 조건을 지키도록 완성된 문서를 직접 보고 확인한 뒤 알려 줍니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 준비물 -->
+<section class="alt" id="ready">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">2</span><h2>준비물</h2></div>
+    <div class="grid c4">
+      <div class="card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg></div>
+        <h3>Windows PC</h3>
+        <p>Windows 10 또는 11</p>
+        <span class="tag need">Mac은 사용 불가</span>
+      </div>
+      <div class="card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/><path d="M8 13h8M8 17h5"/></svg></div>
+        <h3>한컴 한글</h3>
+        <p>학교 PC에는 대부분 설치되어 있어요</p>
+        <span class="tag">✓ 대부분 이미 있음</span>
+      </div>
+      <div class="card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.6 5.6L20 9.3l-4 4 1 5.7-5-2.8-5 2.8 1-5.7-4-4 5.4-.7z"/></svg></div>
+        <h3>Claude 앱 + 유료 요금제</h3>
+        <p>Pro 이상, <a href="https://claude.ai/download" target="_blank" rel="noopener">데스크톱 앱</a>의 Code 탭 사용</p>
+        <span class="tag need">무료 요금제는 불가</span>
+      </div>
+      <div class="card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6"/><path d="M5 10h14"/><path d="M7 10v4a5 5 0 0 0 10 0v-4"/><path d="M12 19v3"/></svg></div>
+        <h3>Python</h3>
+        <p>없어도 괜찮아요</p>
+        <span class="tag">✓ 설치 중 자동 설치</span>
+      </div>
+    </div>
+    <div class="callout">
+      <b>Windows MCP를 따로 설치해야 하나요? → 아니요!</b>
+      Claude 앱의 <b>Code 탭</b>이 PC에서 직접 한글을 조작하므로, 복잡한 MCP 설정 없이 바로 쓸 수 있습니다.
+    </div>
+  </div>
+</section>
+
+<!-- 설치 -->
+<section id="install">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">3</span><h2>설치하기</h2></div>
+    <p class="sub">편한 방법 하나만 고르세요. 대부분 5분 안에 끝납니다.</p>
+
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" aria-selected="true" data-tab="a">방법 A · 파일로 받기<span class="badge">추천</span></button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="b">방법 B · Claude에게 맡기기</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="c">방법 C · git 사용자</button>
+    </div>
+
+    <div class="panel on" id="panel-a" role="tabpanel">
+      <ol class="steps">
+        <li><b>키트를 내려받습니다.</b> 위의 <a href="https://github.com/kkbhong71/claude-hwp-kit/archive/refs/heads/main.zip">키트 내려받기 (ZIP)</a> 버튼을 누르세요.
+          <small>메신저·메일로 claude-hwp-kit.zip 파일을 받았다면 그 파일을 쓰면 됩니다.</small></li>
+        <li><b>압축을 풉니다.</b> ZIP 파일을 마우스 오른쪽 버튼으로 누르고 <kbd>모두 압축 풀기</kbd>를 선택하세요.</li>
+        <li><b><kbd>설치하기.bat</kbd>을 더블클릭합니다.</b>
+          <small>보안 경고 창이 뜨면 실행을 허용하세요. 파란 'Windows의 PC 보호' 창이면 <kbd>추가 정보</kbd> → <kbd>실행</kbd>을 누르면 됩니다. Python이 없으면 설치할지 물어봐요. <kbd>Y</kbd>를 입력하면 됩니다.</small></li>
+        <li><b>초록색 OK가 6번 나오면 끝!</b>
+          <small>바탕 화면에 <kbd>HWP자동화 폴더</kbd> 아이콘이 생기고, 그 안의 설치확인.hwp를 열어 보면 꾸며진 문서가 보입니다.</small></li>
+      </ol>
+    </div>
+
+    <div class="panel" id="panel-b" role="tabpanel">
+      <ol class="steps">
+        <li><b>Claude 데스크톱 앱을 열고 <kbd>Code</kbd> 탭을 누릅니다.</b></li>
+        <li><b>아래 문장을 복사해 붙여 넣고 보냅니다.</b>
+          <div class="prompt"><span>github.com/kkbhong71/claude-hwp-kit 키트를 내려받아서 install.ps1로 설치해 줘</span><button class="copy">복사</button></div>
+        </li>
+        <li><b>허용 여부를 물으면 내용을 읽고 <kbd>허용</kbd>을 누릅니다.</b>
+          <small>Claude가 내려받기, 설치, 시험 변환까지 진행하고 결과를 알려 줍니다.</small></li>
+      </ol>
+    </div>
+
+    <div class="panel" id="panel-c" role="tabpanel">
+      <ol class="steps">
+        <li><b>저장소를 복제합니다.</b>
+          <div class="prompt"><span>git clone https://github.com/kkbhong71/claude-hwp-kit.git</span><button class="copy">복사</button></div></li>
+        <li><b>설치 스크립트를 실행합니다.</b>
+          <div class="prompt"><span>powershell -ExecutionPolicy Bypass -File claude-hwp-kit\install.ps1</span><button class="copy">복사</button></div></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- 사용법 -->
+<section class="alt" id="use">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">4</span><h2>이렇게 사용하세요</h2></div>
+    <ol class="steps">
+      <li><b>Claude 앱 → <kbd>Code</kbd> 탭 → 폴더로 <kbd>문서\HWP자동화</kbd>를 선택합니다.</b>
+        <small>처음 한 번만 고르면, 다음부터는 같은 폴더로 새 세션을 열면 됩니다.</small></li>
+      <li><b>만들고 싶은 문서를 말로 요청합니다.</b> 문서 종류, 학년도, 분량, 꼭 넣을 내용을 함께 말하면 더 좋아요.
+        <p class="label">요청 예시 (눌러서 복사)</p>
+        <div class="prompt"><span>2027학년도 과학 탐구 동아리 운영 계획서를 3쪽 이내 한글 문서로 만들어 줘</span><button class="copy">복사</button></div>
+        <div class="prompt"><span>중학교 수학 기초학력 보장 운영 방안을 8쪽 이내로 구체적으로 작성해 줘</span><button class="copy">복사</button></div>
+        <div class="prompt"><span>학교 축제 운영 계획을 일정표와 역할 분담표를 넣어서 한글 문서로 만들어 줘</span><button class="copy">복사</button></div>
+      </li>
+      <li><b>완성된 파일을 확인하고, 필요하면 말로 고칩니다.</b>
+        <small>"3장에 표를 하나 더 넣어 줘", "2쪽으로 줄여 줘", "주 색상을 초록색으로 바꿔 줘"처럼 이어서 요청하면 됩니다.</small></li>
+    </ol>
+
+    <p class="label" style="margin-top:28px">자동으로 꾸며지는 요소</p>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>요소</th><th>모양</th></tr></thead>
+        <tbody>
+          <tr><td>문서 제목</td><td>남색 상자, 흰 글씨 (한 줄로 자동 맞춤)</td></tr>
+          <tr><td>장 제목</td><td>남색 번호 칸 + 연한 파란 띠</td></tr>
+          <tr><td>본문</td><td>○ 글머리표, 내어쓰기, 줄 간격 160%</td></tr>
+          <tr><td>표</td><td>남색 머리행, 줄무늬 행, '합계' 행 강조, 열 너비 자동</td></tr>
+          <tr><td>쪽 번호</td><td>아래 가운데 (- 1 -)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">5</span><h2>자주 묻는 질문</h2></div>
+    <details>
+      <summary>Claude 채팅(Chat 탭)에서도 되나요?</summary>
+      <p>아니요. 한글 프로그램을 직접 조작해야 해서 <b>Code 탭</b>에서만 됩니다. Chat 탭에서 요청하면 글로만 답하거나 Word 파일을 만들어요.</p>
+    </details>
+    <details>
+      <summary>Mac이나 학교 크롬북에서도 쓸 수 있나요?</summary>
+      <p>아니요. 한컴 한글을 자동으로 조작하는 기능이 Windows에서만 동작합니다.</p>
+    </details>
+    <details>
+      <summary>설치 중에 '한글이 설치되어 있지 않습니다'라고 나와요.</summary>
+      <p>한컴오피스 한글을 먼저 설치한 뒤 설치하기.bat을 다시 실행하세요.</p>
+    </details>
+    <details>
+      <summary>'Python을 설치했지만 인식되지 않습니다'라고 나와요.</summary>
+      <p>설치 직후에는 아직 인식이 안 될 수 있어요. PC를 다시 시작한 뒤 설치하기.bat을 한 번 더 실행하세요.</p>
+    </details>
+    <details>
+      <summary>한글 '보안 승인' 창이 떠요.</summary>
+      <p>프로그램이 한글 파일을 만들려고 접근하는 것이니 <b>모두 허용</b>을 누르면 됩니다.</p>
+    </details>
+    <details>
+      <summary>Claude가 한글 문서를 안 만들고 글로만 답해요.</summary>
+      <p>Code 탭인지 확인하고, 요청 끝에 "school-hwp-docs 스킬로 한글 문서로 만들어 줘"라고 덧붙여 보세요.</p>
+    </details>
+    <details>
+      <summary>그 밖의 오류가 생기면 어떻게 하나요?</summary>
+      <p>오류 화면을 캡처해 Claude Code에 붙여 넣고 "이 오류 해결해 줘"라고 요청하면 대부분 바로 해결됩니다. 자세한 내용은 <a href="%EA%B0%80%EC%9D%B4%EB%93%9C/%ED%81%B4%EB%A1%9C%EB%93%9C_%ED%95%9C%EA%B8%80%EB%AC%B8%EC%84%9C_%EC%B4%88%EB%B3%B4%EC%9E%90_%EA%B0%80%EC%9D%B4%EB%93%9C.pdf" target="_blank" rel="noopener">초보자 가이드 PDF</a>의 '문제 해결'을 참고하세요.</p>
+    </details>
+  </div>
+</section>
+
+<!-- 마무리 -->
+<section class="alt final">
+  <div class="wrap">
+    <h2>지금 바로 시작해 보세요</h2>
+    <p>내려받고, 더블클릭하고, 말로 요청하면 끝.</p>
+    <div class="cta">
+      <a class="btn primary" href="https://github.com/kkbhong71/claude-hwp-kit/archive/refs/heads/main.zip">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+        키트 내려받기 (ZIP)
+      </a>
+      <a class="btn ghost" href="https://github.com/kkbhong71/claude-hwp-kit" target="_blank" rel="noopener">GitHub에서 보기</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <ul>
+      <li>Claude가 쓴 내용은 초안입니다. 법령·지침명, 날짜, 수치는 담당자가 최신 자료와 대조해 확인하세요.</li>
+      <li>학생 이름, 연락처, 성적 등 개인정보는 요청 내용에 넣지 마세요.</li>
+      <li>학교·교육청의 생성형 AI 활용 지침이 있다면 그 지침을 우선 따르세요.</li>
+    </ul>
+    이 키트는 개인이 만든 도구이며 한글과컴퓨터 및 Anthropic의 공식 제품이 아닙니다. 한글 자동화에는 <a href="https://pypi.org/project/pyhwpx/" target="_blank" rel="noopener">pyhwpx</a>를 사용합니다.
+  </div>
+</footer>
+
+<script>
+  // 설치 방법 탭
+  document.querySelectorAll('.tab').forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      document.querySelectorAll('.tab').forEach(function (t) { t.setAttribute('aria-selected', 'false'); });
+      document.querySelectorAll('.panel').forEach(function (p) { p.classList.remove('on'); });
+      tab.setAttribute('aria-selected', 'true');
+      document.getElementById('panel-' + tab.dataset.tab).classList.add('on');
+    });
+  });
+
+  // 문장 복사
+  document.querySelectorAll('.copy').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var text = btn.parentElement.querySelector('span').textContent.trim();
+      var done = function () {
+        btn.textContent = '복사됨 ✓'; btn.classList.add('done');
+        setTimeout(function () { btn.textContent = '복사'; btn.classList.remove('done'); }, 1600);
+      };
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(done, function () { fallback(text); done(); });
+      } else { fallback(text); done(); }
+    });
+  });
+  function fallback(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(ta);
+  }
+</script>
+</body>
+</html>
