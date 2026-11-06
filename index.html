@@ -131,6 +131,9 @@
     border-radius: var(--radius); padding: 16px 20px; font-size: 15px;
   }
   .callout b { color: #7a5200; }
+  .callout.must { background: #fdeeee; border-color: #efb3b3; }
+  .callout.must b { color: #a12626; }
+  .callout.must a { font-weight: 700; color: #a12626; }
 
   /* 설치 방법 탭 */
   .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
@@ -252,7 +255,7 @@
           초보자 가이드 (PDF)
         </a>
       </div>
-      <p class="note">Windows + 한컴 한글 + Claude 유료 요금제(Code 탭)에서 사용할 수 있어요.</p>
+      <p class="note">Windows + 한컴 한글 + <b>Claude 데스크톱 앱</b>(유료 요금제)에서 사용할 수 있어요. 웹 브라우저의 claude.ai에서는 안 돼요.</p>
     </div>
 
     <div class="chat" aria-label="사용 예시">
@@ -310,9 +313,9 @@
       </div>
       <div class="card">
         <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.6 5.6L20 9.3l-4 4 1 5.7-5-2.8-5 2.8 1-5.7-4-4 5.4-.7z"/></svg></div>
-        <h3>Claude 앱 + 유료 요금제</h3>
-        <p>Pro 이상, <a href="https://claude.ai/download" target="_blank" rel="noopener">데스크톱 앱</a>의 Code 탭 사용</p>
-        <span class="tag need">무료 요금제는 불가</span>
+        <h3>Claude 데스크톱 앱</h3>
+        <p>Pro 이상 요금제, <a href="https://claude.ai/download" target="_blank" rel="noopener">claude.ai/download</a>에서 설치</p>
+        <span class="tag need">웹 브라우저·무료 요금제는 불가</span>
       </div>
       <div class="card">
         <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6"/><path d="M5 10h14"/><path d="M7 10v4a5 5 0 0 0 10 0v-4"/><path d="M12 19v3"/></svg></div>
@@ -320,6 +323,12 @@
         <p>없어도 괜찮아요</p>
         <span class="tag">✓ 설치 중 자동 설치</span>
       </div>
+    </div>
+    <div class="callout must">
+      <b>꼭 확인! 웹 브라우저가 아니라 데스크톱 앱에서 써야 해요.</b>
+      크롬·엣지에서 여는 claude.ai는 인터넷 서버에서 동작해서 내 PC의 한글을 쓸 수 없어요.
+      Code 화면의 환경 목록에 <b>'로컬 · 다운로드 · 데스크톱 앱 전용'</b>이 보인다면 지금 웹 브라우저를 쓰고 있는 거예요.
+      <a href="https://claude.ai/download" target="_blank" rel="noopener">데스크톱 앱 내려받기 →</a>
     </div>
     <div class="callout">
       <b>Windows MCP를 따로 설치해야 하나요? → 아니요!</b>
@@ -354,7 +363,8 @@
 
     <div class="panel" id="panel-b" role="tabpanel">
       <ol class="steps">
-        <li><b>Claude 데스크톱 앱을 열고 <kbd>Code</kbd> 탭을 누릅니다.</b></li>
+        <li><b>Claude 데스크톱 앱을 열고 <kbd>&lt;/&gt;</kbd> Code 화면에서 환경을 <kbd>로컬</kbd>로 고릅니다.</b>
+          <small>웹 브라우저의 claude.ai가 아니라 PC에 설치한 앱이어야 해요.</small></li>
         <li><b>아래 문장을 복사해 붙여 넣고 보냅니다.</b>
           <div class="prompt"><span>github.com/kkbhong71/claude-hwp-kit 키트를 내려받아서 install.ps1로 설치해 줘</span><button class="copy">복사</button></div>
         </li>
@@ -379,8 +389,8 @@
   <div class="wrap">
     <div class="sec-head"><span class="sec-num">4</span><h2>이렇게 사용하세요</h2></div>
     <ol class="steps">
-      <li><b>Claude 앱 → <kbd>Code</kbd> 탭 → 폴더로 <kbd>문서\HWP자동화</kbd>를 선택합니다.</b>
-        <small>처음 한 번만 고르면, 다음부터는 같은 폴더로 새 세션을 열면 됩니다.</small></li>
+      <li><b>Claude <u>데스크톱 앱</u> → 왼쪽 위 <kbd>&lt;/&gt;</kbd> Code → <kbd>새로 만들기</kbd> → 환경 <kbd>로컬</kbd> → 폴더 <kbd>문서\HWP자동화</kbd>를 선택합니다.</b>
+        <small>환경이 '클라우드'나 '자동'이면 '로컬'로 바꾸세요. 다음부터는 같은 방법으로 새 세션을 열면 됩니다. OneDrive 백업이 켜진 PC는 폴더 위치가 '백업 시작 &gt; 문서 &gt; HWP자동화'로 보여도 정상이에요.</small></li>
       <li><b>만들고 싶은 문서를 말로 요청합니다.</b> 문서 종류, 학년도, 분량, 꼭 넣을 내용을 함께 말하면 더 좋아요.
         <p class="label">요청 예시 (눌러서 복사)</p>
         <div class="prompt"><span>2027학년도 과학 탐구 동아리 운영 계획서를 3쪽 이내 한글 문서로 만들어 줘</span><button class="copy">복사</button></div>
@@ -411,6 +421,10 @@
 <section id="faq">
   <div class="wrap">
     <div class="sec-head"><span class="sec-num">5</span><h2>자주 묻는 질문</h2></div>
+    <details open>
+      <summary>설치는 됐는데, 웹(claude.ai/code)에서 '로컬 · 데스크톱 앱 전용'이라고 나와요.</summary>
+      <p>웹 브라우저의 Claude는 인터넷 서버에서 동작해서 내 PC의 한글을 쓸 수 없어요. <a href="https://claude.ai/download" target="_blank" rel="noopener">Claude 데스크톱 앱</a>을 설치해 같은 계정으로 로그인한 뒤, 앱의 Code 화면에서 환경을 <b>로컬</b>, 폴더를 <b>문서\HWP자동화</b>로 골라 시작하세요.</p>
+    </details>
     <details>
       <summary>Claude 채팅(Chat 탭)에서도 되나요?</summary>
       <p>아니요. 한글 프로그램을 직접 조작해야 해서 <b>Code 탭</b>에서만 됩니다. Chat 탭에서 요청하면 글로만 답하거나 Word 파일을 만들어요.</p>
